@@ -1,0 +1,51 @@
+{#{% load schedule_extras %}#}
+<html>
+<head>
+    <title>Расписание</title>
+    <style>
+        div.schedule {
+            display:inline-block;
+        }
+        div.cell { /* Обычный абзац */
+            display:inline-block;
+            background:mediumspringgreen;
+            border: 2px solid black;
+            color:navy;
+            padding: 1px 3px 3px;
+            margin-top: 1px;
+        }
+        div.red_cell { /* Абзац с классом f */
+            display:inline-block;
+            background:darkred;
+            border: 2px solid black;
+            color:navy;
+            padding: 3px;
+        }
+    </style>
+</head>
+{% if data %}
+    <ul>
+        {% for clinic, docs in data.items %}
+            <h1>{{ clinic }}</h1>
+            {% for doc, dates in docs.items %}
+                <h2>{{ doc }}</h2>
+                {% for date, cells in dates.items %}
+                    <li>{{ date }}</li>
+                <div class="schedule">
+                    {% for cell in cells %}
+                        {% if cell.free %}
+                            <div class="cell">{{ cell.time_start }} - {{ cell.time_start }}</div>
+                        {% else %}
+                            <div class="red_cell">{{ cell.time_start }} - {{ cell.time_start }}</div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                {% endfor %}
+
+            {% endfor %}
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No clinics are available.</p>
+{% endif %}
+</html>
